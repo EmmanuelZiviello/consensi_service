@@ -58,6 +58,21 @@ class ConsensiUtenteService:
         ConsensiUtenteRepository.save_consensi(consensi_utente,session)
         session.close()
         return {"message":"Consensi utente aggiunti con successo"}, 200
+    
+    @staticmethod
+    def get_condivisione(s_consensi):
+        if "id_paziente" not in s_consensi:
+            return {"status_code":"400"}, 400
+        session=get_session('patient')
+        id_paziente=s_consensi["id_paziente"]
+        consensi=ConsensiUtenteRepository.find_consensi_by_paziente_id(id_paziente,session)
+        if consensi is None:
+            session.close()
+            return {"status_code":"404"}, 404
+        condivisione_misurazioni_paziente=consensi.condivisione_misurazioni_paziente
+        session.close()
+        return {"status_code":"200", "condivisione_misurazioni_paziente":condivisione_misurazioni_paziente}, 200
+        
 
 
     @staticmethod

@@ -15,6 +15,7 @@ KAFKA_BROKER_URL = "kafka-ftaste-kafka-ftaste.j.aivencloud.com:11837"
 
 consumer = KafkaConsumer(
     'consensi.add.request',
+    'consensi.getCondivisione.request',
     bootstrap_servers=KAFKA_BROKER_URL,
     client_id="consensi_consumer",
     group_id="consensi_service",
@@ -37,6 +38,9 @@ def consume(app):
                 topic_producer = "consensi.add.success" if status == 200 else "consensi.add.failed"
                 #send_kafka_message(topic_producer, response)
                 #non si manda una risposta kafka dato che si vogliono solo aggiungere i consensi per l'utente senza che esso debba aspettare una risposta
-                
+            elif topic == "consensi.getCondivisione.request":
+                response,status=ConsensiUtenteService.get_condivisione(data)
+                topic_producer="consensi.getCondivisione.success" if status == 200 else "consensi.getCondivisione.failed"
+                send_kafka_message(topic_producer,response)
             
             

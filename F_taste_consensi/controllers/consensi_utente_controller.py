@@ -17,14 +17,14 @@ consensi_utenti_put = paziente_ns.model('consensi_utente', {
 
 class ConsensiUtente(Resource):
 
-    #da provare
+    
     @paziente_ns.doc('recupera i consensi utente')
     @paziente_required()
     def get(self):
         id_paziente = get_jwt_identity()
         return ConsensiUtenteService.get_consensi_utente(id_paziente)
 
-    #da provare
+    
     @paziente_ns.doc('modifica i consensi utente')
     @paziente_required()
     def put(self):
